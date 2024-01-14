@@ -14,6 +14,8 @@ import com.diogo.assistech.repositories.TecnicoRepository;
 import com.diogo.assistech.services.exception.DataIntegrityViolationException;
 import com.diogo.assistech.services.exception.ObjectnotFoundException;
 
+import jakarta.validation.Valid;
+
 @Service
 public class TecnicoService {
 
@@ -39,6 +41,15 @@ public class TecnicoService {
 		Tecnico newOBJ = new Tecnico(objDTO);
 		return repository.save(newOBJ);
 	}
+	
+	public Tecnico update(Integer id, @Valid TecnicoDTO objDTO) {
+		objDTO.setId(id);
+		Tecnico oldObj = findById(id);
+		validaPorCpfEEmail(objDTO);
+		oldObj = new Tecnico(objDTO);
+		return repository.save(oldObj);
+		
+	}
 
 	private void validaPorCpfEEmail(TecnicoDTO objDTO) {
 		Optional<Pessoa> obj = pessoaRepository.findByCpf(objDTO.getCpf());
@@ -51,5 +62,7 @@ public class TecnicoService {
 			throw new DataIntegrityViolationException("E-mail já cadastrado no sistema!");
 		}
 	}
+
+
 
 }
