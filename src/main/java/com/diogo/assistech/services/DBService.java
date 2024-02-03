@@ -5,6 +5,7 @@ import java.util.Arrays;
 import com.diogo.assistech.domain.Chamado;
 import com.diogo.assistech.domain.Cliente;
 import com.diogo.assistech.domain.Tecnico;
+import com.diogo.assistech.domain.enums.Perfil;
 import com.diogo.assistech.domain.enums.Prioridade;
 import com.diogo.assistech.domain.enums.Status;
 import com.diogo.assistech.repositories.ChamadoRepository;

@@ -64,14 +64,13 @@ public class ClienteService {
 	}
 
 	private void validaPorCpfEEmail(ClienteDTO objDTO) {
-		Optional<Pessoa> obj = pessoaRepository.findByCpf(objDTO.getCpf());
-		if (obj.isPresent() && obj.get().getId() != objDTO.getId()) {
-			throw new DataIntegrityViolationException("CPF já cadastrado no sistema!");
+		boolean cpf = pessoaRepository.existsByCpf(objDTO.getCpf());
+		if(cpf){
+			throw new DataIntegrityViolationException("CPF already register on system!");
 		}
-
-		obj = pessoaRepository.findByEmail(objDTO.getEmail());
-		if (obj.isPresent() && obj.get().getId() != objDTO.getId()) {
-			throw new DataIntegrityViolationException("E-mail já cadastrado no sistema!");
+		boolean email = pessoaRepository.existsByEmail(objDTO.getEmail());
+		if(email) {
+			throw new DataIntegrityViolationException("E-Mail already register on system!");
 		}
 	}
 

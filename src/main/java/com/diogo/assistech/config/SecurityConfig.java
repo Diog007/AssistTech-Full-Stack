@@ -1,65 +1,56 @@
 package com.diogo.assistech.config;
 
-import com.diogo.assistech.security.JWTAuthenticationFilter;
-import com.diogo.assistech.security.JWTUtil;
-import com.diogo.assistech.services.UserDetailsServiceImpl;
-import org.hibernate.cfg.Environment;
+
+import com.diogo.assistech.security.SecurityFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.cors.reactive.CorsConfigurationSource;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
-    private static final String[] PUBLIC_MATCHERS = { "/h2-console/*", "/login/**" };
+    @Autowired
+    private Environment env;
 
     @Autowired
-    private Environment environment;
+    SecurityFilter securityFilter;
 
-    @Autowired
-    private JWTUtil jwtUtil;
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-    @Autowired
-    private UserDetailsServiceImpl detailsService;
+        if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
+            http.headers().frameOptions().disable();
+        }
 
+        return http.csrf(csrf -> csrf.disable())
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(req -> {
+                    req.requestMatchers(HttpMethod.POST, "/login").permitAll();
+                    req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
+                    req.anyRequest().authenticated()
+                            .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+                }).build();
+    }
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) throws Exception {
         return authConfiguration.getAuthenticationManager();
-    }
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationConfiguration authConfiguration) throws Exception {
-        if (Arrays.asList(environment.getActiveProfiles()).contains("test")) {
-            http.headers().frameOptions().disable();
-        }
-        http.authorizeHttpRequests().requestMatchers(toH2Console()).permitAll();
-        http.addFilter(new JWTAuthenticationFilter(authConfiguration.getAuthenticationManager(), jwtUtil));
-        http
-                .cors().and().csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers(PUBLIC_MATCHERS).permitAll() // Permite acesso ao h2-console
-                .anyRequest().authenticated();
-
-        http
-                .headers().frameOptions().sameOrigin(); // Permite o acesso do console do H2 no mesmo domínio
-
-        http
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-        return http.build();
     }
 
     @Bean
@@ -67,12 +58,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
-        configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
 }
