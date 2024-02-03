@@ -21,6 +21,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import java.util.Arrays;
 
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -32,21 +34,25 @@ public class SecurityConfig {
     @Autowired
     SecurityFilter securityFilter;
 
-    @Bean
+    @Beans
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
             http.headers().frameOptions().disable();
         }
 
-        return http.csrf(csrf -> csrf.disable())
-                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(req -> {
-                    req.requestMatchers(HttpMethod.POST, "/login").permitAll();
-                    req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
-                    req.anyRequest().authenticated()
-                            .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
-                }).build();
+        return http
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(authorize -> authorize
+                                .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
+//            .requestMatchers(HttpMethod.POST,"/auth/register").permitAll()
+//            .requestMatchers(HttpMethod.POST,"/ticket").hasRole("ADMIN")
+                                .requestMatchers(toH2Console()).hasRole("ADMIN")
+                                .anyRequest().authenticated()
+                )
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) throws Exception {

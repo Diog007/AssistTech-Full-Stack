@@ -1,6 +1,7 @@
 package com.diogo.assistech.services;
 
 import java.util.Arrays;
+import java.util.List;
 
 import com.diogo.assistech.domain.Chamado;
 import com.diogo.assistech.domain.Cliente;
@@ -9,14 +10,19 @@ import com.diogo.assistech.domain.enums.Perfil;
 import com.diogo.assistech.domain.enums.Prioridade;
 import com.diogo.assistech.domain.enums.Status;
 import com.diogo.assistech.repositories.ChamadoRepository;
+import com.diogo.assistech.repositories.ClienteRepository;
 import com.diogo.assistech.repositories.PessoaRepository;
+import com.diogo.assistech.repositories.TecnicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DBService {
-
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private TecnicoRepository tecnicoRepository;
 	@Autowired
 	private ChamadoRepository chamadoRepository;
 	@Autowired
@@ -26,27 +32,49 @@ public class DBService {
 
 	public void instanciaDB() {
 
-		Tecnico tec1 = new Tecnico(null, "Valdir Cezar", "550.482.150-95", "valdir@mail.com", encoder.encode("123"));
+		Tecnico tec1 = new Tecnico(null, "Junior Pilger", "61394022042", "a@a.com.br", encoder.encode("123"));
 		tec1.addPerfil(Perfil.ADMIN);
-		Tecnico tec2 = new Tecnico(null, "Richard Stallman", "903.347.070-56", "stallman@mail.com", encoder.encode("123"));
-		Tecnico tec3 = new Tecnico(null, "Claude Elwood Shannon", "271.068.470-54", "shannon@mail.com", encoder.encode("123"));
-		Tecnico tec4 = new Tecnico(null, "Tim Berners-Lee", "162.720.120-39", "lee@mail.com", encoder.encode("123"));
-		Tecnico tec5 = new Tecnico(null, "Linus Torvalds", "778.556.170-27", "linus@mail.com", encoder.encode("123"));
 
-		Cliente cli1 = new Cliente(null, "Albert Einstein", "111.661.890-74", "einstein@mail.com", encoder.encode("123"));
-		Cliente cli2 = new Cliente(null, "Marie Curie", "322.429.140-06", "curie@mail.com", encoder.encode("123"));
-		Cliente cli3 = new Cliente(null, "Charles Darwin", "792.043.830-62", "darwin@mail.com", encoder.encode("123"));
-		Cliente cli4 = new Cliente(null, "Stephen Hawking", "177.409.680-30", "hawking@mail.com", encoder.encode("123"));
-		Cliente cli5 = new Cliente(null, "Max Planck", "081.399.300-83", "planck@mail.com", encoder.encode("123"));
+		// Criar técnicos
+		Tecnico tec2 = new Tecnico(null,"John Doe", "03783764386", "john.doe@example.com", encoder.encode("123"));
+		Tecnico tec3 = new Tecnico(null,"Mary Johnson", "11228847614", "mary.johnson@example.com", encoder.encode("123"));
+		Tecnico tec4 = new Tecnico(null,"Robert Smith", "85752968097", "robert.smith@example.com", encoder.encode("123"));
+		Tecnico tec5 = new Tecnico(null,"Jane Doe", "84445767867", "jane.doe@example.com", encoder.encode("123"));
+		Tecnico tec6 = new Tecnico(null,"Michael Johnson", "62218888327", "michael.johnson@example.com", encoder.encode("123"));
+		Tecnico tec7 = new Tecnico(null,"Emily Smith", "92241975583", "emily.smith@example.com", encoder.encode("123"));
 
-		Chamado c1 = new Chamado(null, Prioridade.MEDIA, Status.ANDAMENTO, "Chamado 1", "Teste chamado 1", tec1, cli1);
-		Chamado c2 = new Chamado(null, Prioridade.ALTA, Status.ABERTO, "Chamado 2", "Teste chamado 2", tec1, cli2);
-		Chamado c3 = new Chamado(null, Prioridade.BAIXA, Status.ENCERRADO, "Chamado 3", "Teste chamado 3", tec2, cli3);
-		Chamado c4 = new Chamado(null, Prioridade.ALTA, Status.ABERTO, "Chamado 4", "Teste chamado 4", tec3, cli3);
-		Chamado c5 = new Chamado(null, Prioridade.MEDIA, Status.ANDAMENTO, "Chamado 5", "Teste chamado 5", tec2, cli1);
-		Chamado c6 = new Chamado(null, Prioridade.BAIXA, Status.ENCERRADO, "Chamado 7", "Teste chamado 6", tec1, cli5);
+		tec2.addPerfil(Perfil.TECNICO);
+		tec3.addPerfil(Perfil.TECNICO);
+		tec4.addPerfil(Perfil.TECNICO);
+		tec5.addPerfil(Perfil.TECNICO);
+		tec6.addPerfil(Perfil.TECNICO);
+		tec7.addPerfil(Perfil.TECNICO);
 
-		pessoaRepository.saveAll(Arrays.asList(tec1, tec2, tec3, tec4, tec5, cli1, cli2, cli3, cli4, cli5));
-		chamadoRepository.saveAll(Arrays.asList(c1, c2, c3, c4, c5, c6));
+		tecnicoRepository.saveAll(List.of(tec1, tec2, tec3, tec4, tec5, tec6, tec7));
+
+		// Criar clientes
+		Cliente cus1 = new Cliente(null,"Linus Torvalds", "14178441590", "linux@linux.com.br", encoder.encode("123"));
+		Cliente cus2 = new Cliente(null,"Alice Johnson", "36562882168", "alice.johnson@example.com", encoder.encode("123"));
+		Cliente cus3 = new Cliente(null,"David Smith", "38322565399", "david.smith@example.com", encoder.encode("123"));
+		Cliente cus4 = new Cliente(null,"Sarah Doe", "61317166337", "sarah.doe@example.com", encoder.encode("123"));
+		Cliente cus5 = new Cliente(null,"Robert Johnson", "21466730790", "robert.johnson@example.com", encoder.encode("123"));
+		Cliente cus6 = new Cliente(null,"Emily Davis", "82987592736", "emily.davis@example.com", encoder.encode("123"));
+		// Customer cus7 = new Customer("Daniel Smith", "99988877766", "daniel.smith@example.com", "789");
+
+		clienteRepository.saveAll(List.of(cus1, cus2, cus3, cus4, cus5, cus6));
+
+// Criar tickets
+		Chamado t1 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 01", "Primeiro chamado", tec1, cus1);
+		Chamado t2 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 02", "Segundo chamado", tec2, cus2);
+		Chamado t3 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 03", "Terceiro chamado", tec3, cus3);
+		Chamado t4 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 04", "Quarto chamado", tec4, cus4);
+		Chamado t5 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 05", "Quinto chamado", tec5, cus5);
+		Chamado t6 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 06", "Sexto chamado", tec6, cus6);
+		Chamado t7 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 07", "Sétimo chamado", tec7, cus6);
+
+
+		chamadoRepository.saveAll(List.of(t1, t2, t3, t4, t5, t6, t7));
+
+
 	}
 }
