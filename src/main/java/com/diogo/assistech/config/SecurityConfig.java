@@ -34,12 +34,9 @@ public class SecurityConfig {
     @Autowired
     SecurityFilter securityFilter;
 
-    @Beans
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
-            http.headers().frameOptions().disable();
-        }
 
         return http
                 .csrf(csrf -> csrf.disable())
@@ -48,7 +45,6 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
 //            .requestMatchers(HttpMethod.POST,"/auth/register").permitAll()
 //            .requestMatchers(HttpMethod.POST,"/ticket").hasRole("ADMIN")
-                                .requestMatchers(toH2Console()).hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

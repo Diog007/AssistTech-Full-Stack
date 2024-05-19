@@ -14,11 +14,12 @@ import com.diogo.assistech.repositories.ClienteRepository;
 import com.diogo.assistech.repositories.PessoaRepository;
 import com.diogo.assistech.repositories.TecnicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DBService {
+public class DBService implements CommandLineRunner {
 	@Autowired
 	private ClienteRepository clienteRepository;
 	@Autowired
@@ -30,7 +31,10 @@ public class DBService {
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 
-	public void instanciaDB() {
+	@Override
+	public void run(String... args) throws Exception {
+
+
 
 		Tecnico tec1 = new Tecnico(null, "Junior Pilger", "61394022042", "a@a.com.br", encoder.encode("123"));
 		tec1.addPerfil(Perfil.ADMIN);
@@ -75,6 +79,8 @@ public class DBService {
 
 		chamadoRepository.saveAll(List.of(t1, t2, t3, t4, t5, t6, t7));
 
-
 	}
+
+
+
 }
