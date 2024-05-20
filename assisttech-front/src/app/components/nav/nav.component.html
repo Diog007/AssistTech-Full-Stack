@@ -1,5 +1,36 @@
-,<section>
+<mat-drawer-container class="container" autosize>
+  <mat-drawer #drawer class="sidenav" mode="side">
+     <img src="./assets/side-image.svg" alt="Imagem de navegação">
+     <mat-nav-list class="nav-list">
 
-    <p>nav works!</p>
-    
-</section>
+        <a mat-list-item routerLink="/">
+           <i class="material-icons">home</i>
+           Home
+        </a>
+        <a mat-list-item routerLink="/">
+           <i class="material-icons">account_circle</i>
+           Técnicos
+        </a>
+        <a mat-list-item routerLink="/">
+           <i class="material-icons">person</i>
+           Clientes
+        </a>
+        <a mat-list-item routerLink="/">
+           <i class="material-icons">code</i>
+           Github
+        </a>
+        <a mat-list-item routerLink="/">
+           <i class="material-icons">logout</i>
+           Logout
+        </a>
+        
+     </mat-nav-list>
+  </mat-drawer>
+
+  <div class="sidenav-content">
+     <button class="menu mat-elevation-z8" (click)="drawer.toggle()" mat-icon-button>
+        <mat-icon>menu</mat-icon>
+     </button>
+  </div>
+
+</mat-drawer-container>
