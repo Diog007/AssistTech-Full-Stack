@@ -35,13 +35,15 @@ export class LoginComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  email = new FormControl(null, Validators.minLength(3))
-  senha = new FormControl(null, Validators.minLength(3))
-
   creds: Credenciais = {
     email: '',
     senha: ''
   };
+
+  email = new FormControl(null, Validators.minLength(3))
+  senha = new FormControl(null, Validators.minLength(3))
+
+  
 
   constructor(private toast: ToastrService, private service: AuthService, private router: Router) { }
 
@@ -50,6 +52,7 @@ export class LoginComponent implements OnInit{
       let token = JSON.parse(JSON.stringify(res)).token
       this.service.successfulLogin(token, this.creds.email)
       this.router.navigate(['']);
+      this.toast.success("Login realizado com sucesso!", "Login", { timeOut: 7000})
     }, ((err) => {
       console.log(err.status);
       if (err.status === 403) {
@@ -64,8 +67,8 @@ export class LoginComponent implements OnInit{
   }
 
 
-  validaCampos(): boolean {
-    return this.email.valid && this.senha.valid 
+  validaCampos(): boolean{
+    return this.email.valid && this.senha.valid;
   }
 
 }
