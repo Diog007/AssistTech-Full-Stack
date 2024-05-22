@@ -4,9 +4,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { Credenciais } from '../../models/credenciais';
-import { ToastrModule, ToastrService } from 'ngx-toastr';
+import {  ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import {  HttpClientModule } from '@angular/common/http';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
@@ -14,7 +14,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule,
+  imports: [
+    FormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
@@ -22,7 +23,6 @@ import { Router } from '@angular/router';
     MatIconModule,
     ReactiveFormsModule,
     HttpClientModule,
-    HttpClientModule
      ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  email = new FormControl(null, Validators.email)
+  email = new FormControl(null, Validators.minLength(3))
   senha = new FormControl(null, Validators.minLength(3))
 
   creds: Credenciais = {
