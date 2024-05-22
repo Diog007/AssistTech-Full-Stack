@@ -1,52 +1,71 @@
-import { Component } from '@angular/core';
-import { FormControl, FormsModule, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { Credenciais } from '../../models/credenciais';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../services/auth.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, ToastrModule 
-  ],
+  imports: [FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    HttpClientModule
+     ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
+  providers: [
+    {provide: ToastrService, useClass: ToastrService}
+  ]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
 
-
-  //toastr
-  constructor(private toastr:ToastrService){}
-
-  showsuccess(){
-    this.toastr.success("Login Successfully!.", 'Success!');
-  }
-
-  logar(){
-    this.toastr.error("Usuario ou Senha Invalida!.", 'Login');
-    this.creds.senha = '';
-
-  }
-  //toastr
-
-
-  creds: Credenciais = {
-    email: '',
-    senha: ''
+  ngOnInit(): void {
   }
 
   email = new FormControl(null, Validators.email)
   senha = new FormControl(null, Validators.minLength(3))
 
-  validaCampos(): boolean {
-    if(this.email.valid && this.senha.valid) {
-      return true;
-    } else {
-      return false;
-    }
+  creds: Credenciais = {
+    email: '',
+    senha: ''
+  };
+
+  constructor(private toast: ToastrService, private service: AuthService, private router: Router) { }
+
+  logar() {
+    this.service.authenticate(this.creds).pipe().subscribe(res => {
+      let token = JSON.parse(JSON.stringify(res)).token
+      this.service.successfulLogin(token, this.creds.email)
+      this.router.navigate(['']);
+    }, ((err) => {
+      console.log(err.status);
+      if (err.status === 403) {
+        this.toast.error('Acesso expirado ou login incorreto');
+        //this.service.logout();
+        this.router.navigate(['login']);
+      }else{
+        this.toast.error("Usuário e/ou senha inválidos")
+      }
+     })
+    );
   }
-  
+
+
+  validaCampos(): boolean {
+    return this.email.valid && this.senha.valid 
+  }
 
 }
