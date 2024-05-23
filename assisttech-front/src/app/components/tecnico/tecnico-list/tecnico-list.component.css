@@ -13,6 +13,7 @@ table {
 
   button{
     width: 100%;
+    margin: .8rem auto;
   }
 
   h1{
