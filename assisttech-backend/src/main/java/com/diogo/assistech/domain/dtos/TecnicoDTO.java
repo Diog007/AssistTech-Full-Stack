@@ -11,6 +11,7 @@ import com.diogo.assistech.domain.enums.Perfil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.br.CPF;
 
 public class TecnicoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,6 +20,7 @@ public class TecnicoDTO implements Serializable {
 	@NotNull(message = "O campo NOME é requirido")
 	protected String nome;
 	@NotNull(message = "O campo CPF é requirido")
+	@CPF
 	protected String cpf;
 	@NotNull(message = "O campo EMAIL é requirido")
 	protected String email;
