@@ -21,3 +21,11 @@ table {
     text-align: center;
     margin-bottom: 2rem;
   }
+
+  .edit {
+    color: rgb(0, 149, 255);
+  }
+
+  .delete {
+    color: red;
+  }
