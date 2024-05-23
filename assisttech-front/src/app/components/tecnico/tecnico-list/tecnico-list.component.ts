@@ -1,36 +1,45 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Tecnico } from '../../../models/tecnicos';
+import { TecnicoService } from '../../../services/tecnico.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-tecnico-list',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule],
+  imports: [ MatPaginatorModule, MatFormFieldModule, MatButtonModule, MatInputModule, MatTableModule],
   templateUrl: './tecnico-list.component.html',
   styleUrl: './tecnico-list.component.css'
 })
-export class TecnicoListComponent {
+export class TecnicoListComponent implements OnInit {
 
-  ELEMENT_DATA: Tecnico[] = [
-    {
-      id: 1,
-      nome: 'Diogo Nascimento',
-      cpf: '123.456.789-10',
-      email: 'diogo.mz@gmail.com',
-      senha: '1234',
-      perfis: ['0'],
-      dataCriacao: '20/05/2024'
-    }
-  ]
+  ngOnInit(): void {
+    this.findAll();
+  }
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'acoes'];
+  ELEMENT_DATA: Tecnico[] = []
+
+  displayedColumns: string[] = ['id', 'nome', 'cpf', 'email', 'acoes'];
   dataSource = new MatTableDataSource<Tecnico>(this.ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+  constructor (private service: TecnicoService) { }
+
+  findAll () {
+    this.service.findAll().pipe().subscribe(resposta => {
+      this.ELEMENT_DATA = resposta;
+      this.dataSource = new MatTableDataSource<Tecnico>(resposta);
+      this.dataSource.paginator = this.paginator;
+    })
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
 }
