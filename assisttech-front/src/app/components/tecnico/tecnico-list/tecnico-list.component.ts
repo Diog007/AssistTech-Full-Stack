@@ -6,11 +6,12 @@ import { TecnicoService } from '../../../services/tecnico.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-tecnico-list',
   standalone: true,
-  imports: [ MatPaginatorModule, MatFormFieldModule, MatButtonModule, MatInputModule, MatTableModule],
+  imports: [ MatPaginatorModule, MatFormFieldModule, MatButtonModule, MatInputModule, MatTableModule, RouterLink],
   templateUrl: './tecnico-list.component.html',
   styleUrl: './tecnico-list.component.css'
 })
