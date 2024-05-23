@@ -52,12 +52,12 @@ export class LoginComponent implements OnInit{
       let token = JSON.parse(JSON.stringify(res)).token
       this.service.successfulLogin(token, this.creds.email)
       this.router.navigate(['']);
-      this.toast.success("Login realizado com sucesso!", "Login", { timeOut: 7000})
+      this.toast.success("Login realizado com sucesso!", "Login", { timeOut: 3000})
     }, ((err) => {
       console.log(err.status);
       if (err.status === 403) {
         this.toast.error('Acesso expirado ou login incorreto');
-        //this.service.logout();
+        this.service.logout();
         this.router.navigate(['login']);
       }else{
         this.toast.error("Usuário e/ou senha inválidos")
