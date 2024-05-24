@@ -72,11 +72,11 @@ public class DBService implements CommandLineRunner {
 		clienteRepository.saveAll(List.of(cus1, cus2, cus3, cus4, cus5, cus6));
 
 		Chamado t1 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 01", "Primeiro chamado", tec1, cus1);
-		Chamado t2 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 02", "Segundo chamado", tec2, cus2);
+		Chamado t2 = new Chamado(null, Prioridade.ALTA, Status.ENCERRADO, "Ticket 02", "Segundo chamado", tec2, cus2);
 		Chamado t3 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 03", "Terceiro chamado", tec3, cus3);
-		Chamado t4 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 04", "Quarto chamado", tec4, cus4);
+		Chamado t4 = new Chamado(null, Prioridade.BAIXA, Status.ANDAMENTO, "Ticket 04", "Quarto chamado", tec4, cus4);
 		Chamado t5 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 05", "Quinto chamado", tec5, cus5);
-		Chamado t6 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 06", "Sexto chamado", tec6, cus6);
+		Chamado t6 = new Chamado(null, Prioridade.ALTA, Status.ANDAMENTO, "Ticket 06", "Sexto chamado", tec6, cus6);
 
 
 		chamadoRepository.saveAll(List.of(t1, t2, t3, t4, t5, t6));
