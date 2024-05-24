@@ -35,7 +35,6 @@ public class DBService implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 
-
 		Tecnico tec1 = new Tecnico(null, "Junior Pilger", "61394022042", "a@a.com.br", encoder.encode("123"));
 		tec1.addPerfil(Perfil.ADMIN);
 
@@ -46,6 +45,9 @@ public class DBService implements CommandLineRunner {
 		Tecnico tec5 = new Tecnico(null,"Jane Doe", "84445767867", "jane.doe@example.com", encoder.encode("123"));
 		Tecnico tec6 = new Tecnico(null,"Michael Johnson", "62218888327", "michael.johnson@example.com", encoder.encode("123"));
 		Tecnico tec7 = new Tecnico(null,"Emily Smith", "92241975583", "emily.smith@example.com", encoder.encode("123"));
+		Tecnico tec8 = new Tecnico(null,"Guilherme santos", "19890083051", "gui.santos@example.com", encoder.encode("123"));
+		Tecnico tec9 = new Tecnico(null,"Michael souza", "55414758050", "michael.souza@example.com", encoder.encode("123"));
+		Tecnico tec10 = new Tecnico(null,"Matheus santos", "03481224036", "matheus.santos@example.com", encoder.encode("123"));
 
 		tec2.addPerfil(Perfil.TECNICO);
 		tec3.addPerfil(Perfil.TECNICO);
@@ -53,8 +55,11 @@ public class DBService implements CommandLineRunner {
 		tec5.addPerfil(Perfil.TECNICO);
 		tec6.addPerfil(Perfil.TECNICO);
 		tec7.addPerfil(Perfil.TECNICO);
+		tec8.addPerfil(Perfil.TECNICO);
+		tec9.addPerfil(Perfil.TECNICO);
+		tec10.addPerfil(Perfil.TECNICO);
 
-		tecnicoRepository.saveAll(List.of(tec1, tec2, tec3, tec4, tec5, tec6, tec7));
+		tecnicoRepository.saveAll(List.of(tec1, tec2, tec3, tec4, tec5, tec6, tec7, tec8, tec9, tec10));
 
 		// Criar clientes
 		Cliente cus1 = new Cliente(null,"Linus Torvalds", "14178441590", "linux@linux.com.br", encoder.encode("123"));
@@ -63,21 +68,18 @@ public class DBService implements CommandLineRunner {
 		Cliente cus4 = new Cliente(null,"Sarah Doe", "61317166337", "sarah.doe@example.com", encoder.encode("123"));
 		Cliente cus5 = new Cliente(null,"Robert Johnson", "21466730790", "robert.johnson@example.com", encoder.encode("123"));
 		Cliente cus6 = new Cliente(null,"Emily Davis", "82987592736", "emily.davis@example.com", encoder.encode("123"));
-		// Customer cus7 = new Customer("Daniel Smith", "99988877766", "daniel.smith@example.com", "789");
 
 		clienteRepository.saveAll(List.of(cus1, cus2, cus3, cus4, cus5, cus6));
 
-// Criar tickets
 		Chamado t1 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 01", "Primeiro chamado", tec1, cus1);
 		Chamado t2 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 02", "Segundo chamado", tec2, cus2);
 		Chamado t3 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 03", "Terceiro chamado", tec3, cus3);
 		Chamado t4 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 04", "Quarto chamado", tec4, cus4);
 		Chamado t5 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 05", "Quinto chamado", tec5, cus5);
 		Chamado t6 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 06", "Sexto chamado", tec6, cus6);
-		Chamado t7 = new Chamado(null, Prioridade.MEDIA, Status.ABERTO, "Ticket 07", "Sétimo chamado", tec7, cus6);
 
 
-		chamadoRepository.saveAll(List.of(t1, t2, t3, t4, t5, t6, t7));
+		chamadoRepository.saveAll(List.of(t1, t2, t3, t4, t5, t6));
 
 	}
 
