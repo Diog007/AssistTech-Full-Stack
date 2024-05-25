@@ -22,7 +22,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public abstract class Pessoa implements Serializable{
+public class Pessoa implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -58,6 +58,14 @@ public abstract class Pessoa implements Serializable{
 		this.email = email;
 		this.senha = senha;
 		addPerfil(Perfil.CLIENTE);
+	}
+
+	public Pessoa(String nome, String cpf, String email, String senha) {
+		this.nome = nome;
+		this.cpf = cpf;
+		this.email = email;
+		this.senha = senha;
+		addPerfil(Perfil.ADMIN);
 	}
 
 	public Integer getId() {
