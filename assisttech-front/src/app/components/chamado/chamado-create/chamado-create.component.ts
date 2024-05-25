@@ -23,7 +23,7 @@ import { ToastrService } from 'ngx-toastr';
   imports: [ FormsModule, MatFormFieldModule,
      MatInputModule, MatSelectModule,
       MatButtonModule, ReactiveFormsModule, 
-      CommonModule],
+      CommonModule, RouterLink],
   templateUrl: './chamado-create.component.html',
   styleUrl: './chamado-create.component.css'
 })
