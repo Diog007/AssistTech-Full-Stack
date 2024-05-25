@@ -18,10 +18,10 @@ import { ChamadoReadComponent } from './components/chamado/chamado-read/chamado-
 import { RegisterComponent } from './components/register/register.component';
 
 export const routes: Routes = [
-    {path: 'login/register', component: RegisterComponent},       
+    {path: 'login/register', component: RegisterComponent},
     {path: 'login', component: LoginComponent},
-    {
-        path: '', component: NavComponent, canActivate: [authGuard], children: [
+    {path: '', component: NavComponent, canActivate: [authGuard], children: [
+        
             {path: 'home', component: HomeComponent},
             {path: 'tecnicos', component: TecnicoListComponent},
             {path: 'tecnicos/create', component: TecnicoCreateComponent},
