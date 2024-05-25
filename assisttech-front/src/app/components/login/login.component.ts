@@ -9,7 +9,7 @@ import { AuthService } from '../../services/auth.service';
 import {  HttpClientModule } from '@angular/common/http';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +23,7 @@ import { Router } from '@angular/router';
     MatIconModule,
     ReactiveFormsModule,
     HttpClientModule,
+    RouterLink
      ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',

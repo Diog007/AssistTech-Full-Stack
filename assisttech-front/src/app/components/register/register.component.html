@@ -1,0 +1,62 @@
+<div class="container " >
+    <form class="form mat-elevation-z8">
+        
+
+        <h1>Sign Up</h1>
+
+        
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Nome</mat-label>
+            <input 
+            [formControl]="nome"
+            required=""
+            [(ngModel)]="register.nome"
+            name="nome" 
+            matInput 
+            placeholder="fulano de tal">
+            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+         </mat-form-field>
+      
+         <mat-form-field class="full-width" appearance="outline">
+            <mat-label>CPF</mat-label>
+            <input 
+            [formControl]="cpf"
+            required
+            [(ngModel)]="register.cpf" 
+            name="cpf" 
+            matInput 
+            placeholder="Ex. 123">
+            <mat-icon matSuffix>pin</mat-icon>
+         </mat-form-field>
+
+         <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input 
+            [formControl]="email"
+            required
+            [(ngModel)]="register.email" 
+            name="email" 
+            matInput 
+            placeholder="Ex.. email@email.com">
+            <mat-icon matSuffix>email</mat-icon>
+         </mat-form-field>
+
+         <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Senha</mat-label>
+            <input 
+            [formControl]="senha"
+            required
+            [(ngModel)]="register.senha" 
+            name="senha" 
+            type="password"
+            matInput 
+            placeholder="Ex. 123">
+            <mat-icon matSuffix>password</mat-icon>
+         </mat-form-field>
+
+
+        <button [disabled]="!validaCampos()" class="full-width mat-elevation-z4" mat-flat-button  color="primary" (click)="registers()">Cadastrar</button>
+        <button routerLink="../" class="full-width mat-elevation-z4" mat-stroked-button color="primary">Cancelar</button>
+    </form>
+
+</div>

@@ -15,8 +15,10 @@ import { ChamadoCreateComponent } from './components/chamado/chamado-create/cham
 import { TecnicoListComponent } from './components/tecnico/tecnico-list/tecnico-list.component';
 import { ChamadoUpdateComponent } from './components/chamado/chamado-update/chamado-update.component';
 import { ChamadoReadComponent } from './components/chamado/chamado-read/chamado-read.component';
+import { RegisterComponent } from './components/register/register.component';
 
 export const routes: Routes = [
+    {path: 'login/register', component: RegisterComponent},       
     {path: 'login', component: LoginComponent},
     {
         path: '', component: NavComponent, canActivate: [authGuard], children: [
@@ -35,7 +37,7 @@ export const routes: Routes = [
             {path: 'chamados', component: ChamadoListComponent},
             {path: 'chamados/create', component: ChamadoCreateComponent},       
             {path: 'chamados/update/:id', component: ChamadoUpdateComponent},
-            {path: 'chamados/read/:id', component: ChamadoReadComponent}       
+            {path: 'chamados/read/:id', component: ChamadoReadComponent},
 
         ]
     }

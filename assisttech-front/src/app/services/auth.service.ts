@@ -3,6 +3,8 @@ import { Credenciais } from '../models/credenciais';
 import { HttpClient} from '@angular/common/http';
 import { API_CONFIG } from '../config/api.config';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Register } from '../models/register';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +34,11 @@ export class AuthService {
 
   logout() {
     localStorage.clear();
+  }
+
+
+  register(register: Register): Observable<Register> {
+    return this.http.post<Register>(`${API_CONFIG.baseUrl}/auth/register`, register)
   }
 
 }
